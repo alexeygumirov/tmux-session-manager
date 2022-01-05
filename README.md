@@ -25,7 +25,7 @@ I tried to write a wrapper in Python and it worked quite well.
 
 ## How it works
 
-- You need Tmux
+- You need Tmux and FZF installed
 - By default the folder for your session config files is `~/.config/tmux-project-sessions`, but you can change in the script `main()` function by setting `config_path` variable.
 - Session file name is a session name
 - Session file format:
