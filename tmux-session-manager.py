@@ -57,7 +57,7 @@ def get_session(config_path: str = '~/.config/tmux-project-sessions') -> str:
     cmd = ['/usr/bin/ls', '-1', os.path.expanduser(config_path)]
     ls_process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     try:
-        session_name = subprocess.check_output(['fzf', '--header="Select tmux session:"', '--border', '--height', '20%', '--reverse', '--cycle'],
+        session_name = subprocess.check_output(['fzf', '--header="Select tmux session:"', '--border', '--height', '20%', '--reverse', '--cycle', '--no-multi'],
                                                 stdin=ls_process.stdout).decode('utf-8').strip('\n')
     except Exception:
         session_name = ""
