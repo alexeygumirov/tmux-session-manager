@@ -32,7 +32,7 @@ I tried to write a wrapper in Python and it worked quite well.
 
 Each entry is `window name = root folder` pair.
 
-```toml
+```config
 # Example Tmux Session
 
 = ~/
