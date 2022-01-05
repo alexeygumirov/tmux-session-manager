@@ -30,7 +30,7 @@ I tried to write a wrapper in Python and it worked quite well.
 - Session file name is a session name
 - Session file format:
 
-Each entry is `window name = root folder` pair.
+Each entry is `window name = root folder` pair. If one is empty - default value defined by Tmux config is going to be used.
 
 ```config
 # Example Tmux Session

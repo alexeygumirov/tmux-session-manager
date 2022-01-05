@@ -1,4 +1,6 @@
-# Scratchapd Tmux session
+# Example of session description file.
+# Each line describes "windows name = root path" pair.
+# If one is empty - default value defined by Tmux config is going to be used.
 
 = ~/
 config = ~/.config
