@@ -5,6 +5,19 @@ import subprocess
 import sys
 
 
+def check_if_program_exists(program_name: str) -> bool:
+    """
+        Function checks if program is installed in the system.
+    """
+
+    cmd = ["which", program_name]
+    result = subprocess.call(cmd, stdout=subprocess.DEVNULL)
+    if result == 0:
+        return True
+    else:
+        return False
+
+
 def get_session_params(file_path: str) -> list:
     """
     This function extracts session parameters from the file.
@@ -125,6 +138,12 @@ def main():
     """
 
     config_path = '~/.config/tmux-project-sessions'
+
+    if not check_if_program_exists('tmux'):
+        sys.exit('Error: Tmux is not installed.')
+
+    if not check_if_program_exists('fzf'):
+        sys.exit('Error: FZF is not installed.')
 
     if len((sys.argv)) == 1:
         session_name = get_session(config_path)
