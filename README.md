@@ -14,6 +14,9 @@ I use Tmux quite extensively in my job and needed some tool which allowed me to 
 2. Restore/re-create sessions if I accidentially mess it up.
 3. Switch between sessions.
 
+
+**Next feature planned**: Ability to save current session into the file.
+
 ## Why Python?
 
 Initially I had a very simple shell script doing almost all job but by some reason I could not make it work with paths containing special characters like spaces, brackets, etc. E.g. shell script was not able to process path like one above: `~/Downloads/Project {1} - Test (1)`. I know, it is an extreme example, but I wanted my script being able to cope with any path.
