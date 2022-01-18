@@ -52,7 +52,7 @@ Script accepts following parameters:
 - `restore`: Restores/repairs selected session. Use this option if you messed up your windows (qantity, order, names, root folders) and you want to go reset session back to the state described in the session file.
 - `save`: Allows to save current session into the new file in the `~/.config/tmux-project-sessions` directory. File name will be `TIME_STAMP_session_name`. TIME_STAMP is in the format of `%Y-%m-%d_%H-%M-%S`. `session_name` part of the file name is created from the actual session name where all non-alphanumerical symbols are replaced with `-`.
 - `delete`: Delete selected session file.
-    - **Important**: This command just deletes session file. Hence, if session with this name is currently running in the TMUX - it will stay.
+    - **Important**: This command just deletes session file. Hence, if session with this name is currently running in the TMUX - it will keep running until you will kill it, or save it again.
 
 `tmux-sessions-manager.py` without parameters is equivalent to `tmux-sessions-manager.py open`. So, it will go into selection of session to open.
 
