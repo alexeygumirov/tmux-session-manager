@@ -2,6 +2,8 @@
 
 Simple Tmux session manager in Python.
 
+Version: v2.0
+
 ## Motivation
 
 I use Tmux quite extensively in my job and needed some tool which allowed me to manage my Tmux sessions efficiently:
@@ -11,17 +13,14 @@ I use Tmux quite extensively in my job and needed some tool which allowed me to 
     - Given window names
     - Given root folder for each window
         - Handle root folders with special charaters and spaces, e.g. `~/Downloads/Project {1} - Test (1)`
-2. Restore/re-create sessions if I accidentially mess it up.
+2. Restore/repair sessions if I accidentially mess it up.
 3. Switch between sessions.
 
+**New features added**:
 
-**Next feature planned**: Ability to save current session into the file.
-
-## Why Python?
-
-Initially I had a very simple shell script doing almost all job but by some reason I could not make it work with paths containing special characters like spaces, brackets, etc. E.g. shell script was not able to process path like one above: `~/Downloads/Project {1} - Test (1)`. I know, it is an extreme example, but I wanted my script being able to cope with any path.
-
-I tried to write a wrapper in Python and it turned to be working quite well.
+1. Actions menu.
+2. Ability to save running session.
+3. Ability to deleted session file.
 
 ## Dependencies
 
@@ -47,9 +46,23 @@ project = ~/Projects/my awesome project
 
 ## Script parameters
 
-Script accepts only one parameter: `restore`.
-If you call `tmux-session-manager.py restore` - it will re-create selected session in accrodance with definition in the selected session file.
+Script accepts following parameters:
+- `menu`: Script starts with actions selection menu: Open/Restore/Save/Delete. You first select the action and then script calls sessions list to apply action to.
+- `open`: Opens selected session or attaches client to it if session already running.
+- `restore`: Restores/repairs selected session. Use this option if you messed up your windows (qantity, order, names, root folders) and you want to go reset session back to the state described in the session file.
+- `save`: Allows to save current session into the new file in the `~/.config/tmux-project-sessions` directory. File name will be `TIME_STAMP_session_name`. TIME_STAMP is in the format of `%Y-%m-%d_%H-%M-%S`. `session_name` part of the file name is created from the actual session name where all non-alphanumerical symbols are replaced with `-`.
+- `delete`: Delete selected session file.
+    - **Important**: This command just deletes session file. Hence, if session with this name is currently running in the TMUX - it will stay.
+
+`tmux-sessions-manager.py` without parameters is equivalent to `tmux-sessions-manager.py open`. So, it will go into selection of session to open.
 
 ## Screenshot
 
 ![screenshot](screenshot.png)
+
+## Why Python?
+
+Initially I had a very simple shell script doing almost all job but by some reason I could not make it work with paths containing special characters like spaces, brackets, etc. E.g. shell script was not able to process path like one above: `~/Downloads/Project {1} - Test (1)`. I know, it is an extreme example, but I wanted my script being able to cope with any path.
+
+I tried to write a wrapper in Python and it turned to be working quite well.
+
