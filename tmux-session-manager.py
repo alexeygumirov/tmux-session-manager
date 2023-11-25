@@ -32,7 +32,11 @@ from datetime import datetime
 
 def check_if_program_exists(program_name: str) -> bool:
     """
-        Function checks if program is installed in the system.
+    Function checks if program is installed in the system.
+    Args:
+        program_name (str): Name of the program to check.
+    Returns:
+        True if program exists, False if not.
     """
 
     cmd = ["which", program_name]
@@ -46,6 +50,10 @@ def check_if_program_exists(program_name: str) -> bool:
 def get_session_params(file_path: str) -> list:
     """
     This function extracts session parameters from the file.
+    Args:
+        file_path (str): Path to the file with session parameters.
+    Returns:
+        session_params (list): List with session parameters.
     """
 
     session_params = []
@@ -64,7 +72,12 @@ def get_session_params(file_path: str) -> list:
 
 def make_new_session(session_name: str, session_params: list) -> str:
     """
-    This function creates new TMUX session based on given parameters
+    This function creates a new TMUX session based on the given parameters.
+    Args:
+        session_name (str): Name of the session to create.
+        session_params (list): List with session parameters.
+    Returns:
+        result (str): Result of the command execution.
     """
 
     cmd = ['tmux', 'new', '-d', '-s', session_name]
@@ -88,7 +101,11 @@ def make_new_session(session_name: str, session_params: list) -> str:
 def get_session(fzf_header: str, config_path: str = '~/.config/tmux-project-sessions') -> str:
     """
     Lists all available sessions in the folder and allows to select one of them.
-    Returns session name.
+    Args:
+        fzf_header (str): Header for FZF window.
+        config_path (str): Path to the folder with session files.
+    Returns:
+        session_name (str): Name of the selected session.
     """
 
     session_name = ""
@@ -96,7 +113,7 @@ def get_session(fzf_header: str, config_path: str = '~/.config/tmux-project-sess
     ls_process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     try:
         session_name = subprocess.check_output(['fzf', '--header="' + fzf_header + '"', '--border', '--height', '20%', '--reverse', '--cycle', '--no-multi'],
-                                                stdin=ls_process.stdout).decode('utf-8').strip('\n')
+                                               stdin=ls_process.stdout).decode('utf-8').strip('\n')
     except Exception:
         session_name = ""
 
@@ -105,7 +122,9 @@ def get_session(fzf_header: str, config_path: str = '~/.config/tmux-project-sess
 
 def get_action() -> str:
     """
-        Calls FZF and selects action to do first.
+    Calls FZF and selects action to do first.
+    Returns:
+        action (str): Selected action.
     """
     action = ""
     actions_list = "Open\nRestore\nSave\nDelete"
@@ -113,7 +132,7 @@ def get_action() -> str:
     ls_process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     try:
         action = subprocess.check_output(['fzf', '--header="Select action:"', '--border', '--height', '20%', '--reverse', '--no-multi'],
-                                                stdin=ls_process.stdout).decode('utf-8').strip('\n')
+                                         stdin=ls_process.stdout).decode('utf-8').strip('\n')
     except Exception:
         action = ""
 
@@ -122,20 +141,32 @@ def get_action() -> str:
 
 def tmux_session_detection(session_name: str) -> bool:
     """
-        Function checks if session already exists.
+    Function checks if session already exists.
+    Args:
+        session_name (str): Name of the session to check.
+    Returns:
+        True if session exists, False if not.
     """
 
-    cmd = ['tmux', 'has-session', '-t', session_name]
-    result = subprocess.call(cmd, stderr=subprocess.DEVNULL)
-    if result == 0:
-        return True
-    else:
+    cmd = ['tmux', 'list-sessions', '-F', '#S']
+    try:
+        result = subprocess.check_output(cmd, stderr=subprocess.DEVNULL).decode('utf-8').split('\n')
+        if session_name in result:
+            return True
+        else:
+            return False
+    except Exception:
         return False
 
 
 def tmux_session_restore(session_name: str, session_params: list):
     """
-        Restores current active session.
+    Restores current active session.
+    Args:
+        session_name (str): Name of the session to restore.
+        session_params (list): List with session parameters.
+    Returns:
+        result (str): Result of the command execution.
     """
 
     cmd = ['tmux', 'rename-session', session_name + '-old']
@@ -151,7 +182,9 @@ def tmux_session_restore(session_name: str, session_params: list):
 
 def is_inside_session() -> bool:
     """
-        Detect if currently is inside session.
+    Detect if currently is inside session.
+    Returns:
+        True if inside session, False if not.
     """
 
     try:
@@ -163,7 +196,9 @@ def is_inside_session() -> bool:
 
 def get_current_session_name() -> str:
     """
-        Get name of the TMUX session we are in.
+    Get name of the TMUX session we are in.
+    Returns:
+        session_name (str): Name of the current session.
     """
 
     if is_inside_session():
@@ -176,7 +211,9 @@ def get_current_session_name() -> str:
 
 def save_session_to_file(config_path: str) -> None:
     """
-        Function to save current TMUX session into the session file.
+    Function to save current TMUX session into the session file.
+    Args:
+        config_path (str): Path to the folder with session files.
     """
 
     if not is_inside_session():
@@ -211,13 +248,14 @@ def save_session_to_file(config_path: str) -> None:
 
 def delete_session(config_path: str, file_name: str) -> None:
     """
-        Deletes selected session file.
+    Deletes selected session file.
+    Args:
+        config_path (str): Path to the folder with session files.
+        file_name (str): Name of the session file to delete.
     """
 
     os.remove(os.path.expanduser(config_path + '/' + file_name))
     print(f"\n Tmux session file `{file_name}` was removed.\n")
-
-
 
 
 def main():
@@ -264,8 +302,6 @@ def main():
                 cmd = ['tmux', 'attach', '-d', '-t', session_name]
                 result = subprocess.call(cmd)
             else:
-                print(session_name)
-
                 if session_name != get_current_session_name():
                     cmd = ['tmux', 'detach-client', '-s', session_name]
                     result = subprocess.call(cmd)
