@@ -2,7 +2,7 @@
 
 Simple Tmux session manager in Python.
 
-Version: v2.0
+Version: v2.1
 
 ## Motivation
 
@@ -55,6 +55,17 @@ Script accepts following parameters:
     - **Important**: This command just deletes session file. Hence, if session with this name is currently running in the TMUX - it will keep running until you will kill it, or save it again.
 
 `tmux-sessions-manager.py` without parameters is equivalent to `tmux-sessions-manager.py open`. So, it will go into selection of session to open.
+
+## Integration with ZSH (example)
+
+I assigned key bindings in my `.zshrc` file:
+
+```bash
+bindkey -s '^gt' 'tmux-session-manager.py^M'
+bindkey -s '^gr' 'tmux-session-manager.py restore^M'
+bindkey -s '^gm' 'tmux-session-manager.py menu^M'
+bindkey -s '^gs' 'tmux-session-manager.py save^M'
+```
 
 ## Screenshot
 
