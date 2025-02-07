@@ -2,7 +2,7 @@
 
 Simple Tmux session manager in Python.
 
-Version: v2.1
+Version: v2.2
 
 ## Motivation
 
