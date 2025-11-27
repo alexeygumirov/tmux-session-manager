@@ -1,3 +1,13 @@
+# 👋 THIS REPOSITORY HAS MOVED! 👋
+
+**This repository is no longer actively maintained on GitHub.**
+
+Please update your bookmarks and remotes to the new home on Codeberg:
+
+➡️ **[https://codeberg.org/alexeygumirov/tmux-session-manager](https://codeberg.org/alexeygumirov/tmux-session-manager)** ⬅️
+
+Thank you for your understanding!
+
 # Tmux session manager
 
 Simple Tmux session manager in Python.
